@@ -61,10 +61,10 @@ The `Vector` class is designed to manage a collection of integers, allowing for 
 int main() {
     Vector v;
     v.push_back(10);
-    v.push_back(20);
-    v.push_back(30);
 
     v.insert(1, 15); // Insert 15 at index 1
+    v.insert(2, 20);
+    v.insert(3, 30);
 
     for (int i = 0; i < v.size(); i++) {
         cout << v[i] << " ";
