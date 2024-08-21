@@ -1,0 +1,116 @@
+#include <iostream>
+using namespace std;
+
+class Vector
+{
+    int *elements;
+    int size_;
+    int capacity_;
+public:
+    void increase_cap()
+    {
+        capacity_*=2;
+        int *temp = new int[capacity_];
+        for(int i=0;i<size_;i++)
+            temp[i] = elements[i];
+        delete elements;
+        elements = temp;
+    }
+    void decrease_cap()
+    {
+        capacity_/=2;
+        int *temp = new int[capacity_];
+        for(int i=0;i<size_;i++)
+            temp[i] = elements[i];
+        delete elements;
+        elements = temp;
+    }
+public:
+    bool operator==(const Vector& other) const
+    {
+        if (size_!=other.size_)
+            return 0;
+
+        for(int i=0; i<size_;i++)
+        {
+            if (elements[i] != other.elements[i])
+                return 0;
+        }
+        return 1;
+    }
+    int& operator[](int index)
+    {
+        if (index>-1 && index < size_)
+            return elements[index];
+        else
+            cout << "Invalid index input!";
+    }
+    Vector& operator=(const Vector& other)
+    {
+        capacity_ = other.capacity_;
+        size_ = other.size_;
+        elements = new int[size_];
+        for (int i = 0; i< size_; i++)
+        {
+            elements[i] = other.elements[i];
+        }
+        return *this;
+    }
+    Vector():size_(0),capacity_(5){
+		elements = new int[capacity_];
+	}
+    ~Vector(){
+		delete elements;
+	}
+    int size() const {
+		return size_;
+	}
+    int capacity() const {
+		return capacity_;
+	}
+    bool empty() const {
+		return size_==0;
+	}
+    void push_back(int value)
+    {
+    	elements[size_++] = value;
+        if (size_ >= capacity_) {
+            increase_cap();
+        }
+    }
+    void pop_back()
+    {
+        size_--;
+        if(size_ < capacity_/2)
+            decrease_cap();
+    }
+    int& front() {
+		return elements[0];
+	}
+    int& back() {
+		return elements[size_ - 1];
+	}
+    void insert(int index, int value)
+    {
+        if (size_ >= capacity_)
+            increase_cap();
+
+        for(int i = size_ - 1;i >= index ; i--)
+        {
+            elements[i] = elements[i+1];
+        }
+        elements[index] = value;
+        size_++;
+    }
+    int* begin() const
+    {
+        return &elements[0];
+    }
+    int* end() const
+    {
+        return &elements[size_];
+    }
+};
+int main(){
+	return 0;
+}
